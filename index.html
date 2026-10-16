@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的自我介紹卡 - 認識獨一無二的我！</title>
+  <!-- Google Fonts & Tailwind CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      font-family: 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* 溫馨綠意背景質感 */
+    body {
+      background: radial-gradient(circle at top left, #F2F9F3 0%, #E8F5E9 40%, #E1EFE3 100%);
+      min-height: 100vh;
+      color: #2D4030;
+    }
+
+    /* 溫和卡片陰影與立體按鈕 */
+    .nature-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #CDE5D2;
+      box-shadow: 0 10px 25px -5px rgba(62, 115, 78, 0.12), 0 8px 10px -6px rgba(62, 115, 78, 0.08);
+    }
+
+    .btn-nature-primary {
+      background: linear-gradient(135deg, #4E9563 0%, #3D7A50 100%);
+      box-shadow: 0 4px 14px rgba(61, 122, 80, 0.35);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-nature-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 18px rgba(61, 122, 80, 0.45);
+    }
+    .btn-nature-primary:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .option-card {
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: 2.5px solid #E1EFE3;
+    }
+    .option-card:hover {
+      border-color: #5BA874;
+      background-color: #F4FAF5;
+      transform: translateY(-3px);
+    }
+    .option-card.selected {
+      border-color: #3E8A56;
+      background-color: #EBF7EE;
+      box-shadow: 0 0 0 3px rgba(78, 149, 99, 0.2);
+    }
+
+    /* 浮動微動畫 */
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .floating-anim {
+      animation: gentleFloat 3.5s ease-in-out infinite;
+    }
+
+    /* 進度條光澤 */
+    .progress-shimmer {
+      background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* 列印專用樣式 */
+    @media print {
+      body { background: white !important; }
+      .no-print { display: none !important; }
+      #printable-card {
+        box-shadow: none !important;
+        border: 2px solid #5BA874 !important;
+        margin: 0 auto !important;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 flex flex-col justify-between items-center text-slate-800">
+
+  <header class="w-full max-w-4xl mx-auto mb-4 flex items-center justify-between no-print">
+    <div class="flex items-center space-x-3">
+      <!-- 綠葉與小芽圖示 -->
+      <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-md font-bold">
+        🌱
+      </div>
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-emerald-900 tracking-wide">我的自我介紹卡</h1>
+        <p class="text-xs sm:text-sm text-emerald-700 font-medium">看見每個獨一無二的自己 🌿</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold border border-emerald-300">
+        三民國小探索小樂園
+      </span>
+      <button id="soundToggleBtn" onclick="toggleAudio()" class="w-9 h-9 rounded-full bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 flex items-center justify-center transition shadow-sm text-sm" title="音效開關">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <main class="w-full max-w-4xl mx-auto flex-grow flex items-center justify-center relative">
+
+    <!-- ==================== STEP 0: 歡迎導讀首頁（同圖片風格） ==================== -->
+    <div id="step-intro" class="w-full">
+      <!-- 參考原圖版面結構：左側圖文探索卡 + 右側行動卡 -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5 nature-card rounded-3xl p-4 sm:p-6 md:p-8">
+        
+        <!-- 左側主視覺橫幅 (仿圖 01 認識自己) -->
+        <div class="md:col-span-8 bg-gradient-to-br from-emerald-50/80 to-teal-50/60 rounded-2xl p-5 sm:p-6 border border-emerald-200/80 flex flex-col sm:flex-row items-center gap-5 relative overflow-hidden">
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-emerald-200/30 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <!-- 可愛探索插畫區（手繪溫馨風格 SVG 插圖） -->
+          <div class="flex-shrink-0 text-center relative">
+            <div class="w-36 h-40 sm:w-44 sm:h-48 rounded-3xl bg-gradient-to-b from-[#F9FCF8] to-[#E9F7EB] shadow-md border-2 border-emerald-300 flex flex-col items-center justify-between p-2.5 relative overflow-hidden group">
+              <!-- 左上角 01 標籤 -->
+              <span class="absolute top-2 left-2.5 bg-emerald-700 text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-sm z-10 tracking-wider">01</span>
+
+              <!-- 背景柔和陽光與微風光暈 -->
+              <div class="absolute -top-6 -right-6 w-24 h-24 bg-amber-200/50 rounded-full blur-xl pointer-events-none"></div>
+              <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-emerald-200/60 to-transparent pointer-events-none"></div>
+
+              <!-- 主題插畫 SVG -->
+              <div class="w-full h-full flex items-center justify-center relative">
+                <svg viewBox="0 0 200 210" class="w-full h-full max-h-[155px] drop-shadow-sm select-none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- 背景微裝飾：小閃爍星星與漂浮綠葉 -->
+                  <g class="floating-anim">
+                    <!-- 點亮靈感的小燈泡 -->
+                    <circle cx="152" cy="38" r="14" fill="#FEF08A" opacity="0.6"/>
+                    <circle cx="152" cy="38" r="8" fill="#FDE047"/>
+                    <path d="M149 44 h6 v3 h-6 z" fill="#CBD5E1"/>
+                    <path d="M152 24 v-4 M163 28 l3 -3 M166 38 h4 M141 28 l-3 -3" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+                    
+                    <!-- 飄落小綠葉 -->
+                    <path d="M168 62 C175 60 178 70 170 74 C163 74 163 65 168 62 Z" fill="#4ADE80"/>
+                    <path d="M26 65 C20 68 18 78 26 80 C33 78 31 68 26 65 Z" fill="#86EFAC"/>
+                  </g>
+
+                  <!-- 陽光與草地斜坡 -->
+                  <path d="M 0 175 Q 100 160 200 175 L 200 210 L 0 210 Z" fill="#86EFAC" opacity="0.45"/>
+                  <path d="M 0 185 Q 100 172 200 185 L 200 210 L 0 210 Z" fill="#4ADE80" opacity="0.6"/>
+
+                  <!-- 可愛背著小書包、好奇托腮的小朋友 -->
+                  <g transform="translate(10, 8)">
+                    <!-- 小書包 (亮珊瑚橘粉色，圓潤飽滿) -->
+                    <rect x="52" y="70" width="46" height="52" rx="18" fill="#FB7185"/>
+                    <rect x="58" y="78" width="34" height="24" rx="8" fill="#F43F5E"/>
+                    <circle cx="75" cy="90" r="3" fill="#FDE047"/>
+                    <!-- 書包提把 -->
+                    <path d="M66 70 C66 60 84 60 84 70" stroke="#E11D48" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+                    <!-- 小朋友身體與可愛服飾 (吊帶小牛仔) -->
+                    <!-- 衣服本體 (暖鵝黃色條紋) -->
+                    <path d="M 60 115 Q 75 110 90 115 L 98 160 L 52 160 Z" fill="#FEF08A"/>
+                    <!-- 牛仔吊帶褲 -->
+                    <path d="M 54 135 L 96 135 L 94 172 L 56 172 Z" fill="#60A5FA"/>
+                    <path d="M 62 118 L 65 135 M 88 118 L 85 135" stroke="#3B82F6" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="65" cy="137" r="2" fill="#FCD34D"/>
+                    <circle cx="85" cy="137" r="2" fill="#FCD34D"/>
+
+                    <!-- 托腮小手手臂 -->
+                    <path d="M 52 124 C 44 132 46 142 58 140" stroke="#FFD8B5" stroke-width="7" stroke-linecap="round" fill="none"/>
+                    <path d="M 98 124 C 106 132 104 142 92 140" stroke="#FFD8B5" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+                    <!-- 圓滾滾托腮小手 -->
+                    <circle cx="56" cy="116" r="6" fill="#FFD8B5"/>
+                    <circle cx="94" cy="116" r="6" fill="#FFD8B5"/>
+
+                    <!-- 頭部與微捲可愛棕髮 -->
+                    <!-- 後髮 -->
+                    <circle cx="75" cy="74" r="34" fill="#92400E"/>
+                    <circle cx="48" cy="85" r="12" fill="#92400E"/>
+                    <circle cx="102" cy="85" r="12" fill="#92400E"/>
+
+                    <!-- 臉蛋 (圓潤親切、微傾斜) -->
+                    <circle cx="75" cy="78" r="27" fill="#FFE4CE"/>
+                    <!-- 脖子 -->
+                    <rect x="71" y="98" width="8" height="12" rx="4" fill="#FFD8B5"/>
+
+                    <!-- 可愛粉嫩腮紅 -->
+                    <ellipse cx="61" cy="86" rx="5" ry="3.5" fill="#FDA4AF" opacity="0.8"/>
+                    <ellipse cx="89" cy="86" rx="5" ry="3.5" fill="#FDA4AF" opacity="0.8"/>
+
+                    <!-- 亮晶晶的大眼睛 (開朗笑瞇瞇) -->
+                    <path d="M 58 75 Q 63 68 68 75" stroke="#451A03" stroke-width="3" stroke-linecap="round" fill="none"/>
+                    <path d="M 82 75 Q 87 68 92 75" stroke="#451A03" stroke-width="3" stroke-linecap="round" fill="none"/>
+                    <!-- 眨眼小臥蠶/笑臉神采 -->
+                    <path d="M 60 72 L 61 70 M 90 72 L 89 70" stroke="#451A03" stroke-width="1.5" stroke-linecap="round"/>
+
+                    <!-- 甜甜的小微笑 -->
+                    <path d="M 70 85 Q 75 92 80 85" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" fill="#F87171"/>
+
+                    <!-- 額前瀏海與橘紅色幸運小髮夾 -->
+                    <path d="M 52 64 C 62 55 70 70 78 58 C 86 68 96 60 98 68 C 96 50 54 48 52 64 Z" fill="#92400E"/>
+                    <!-- 小花髮夾 -->
+                    <circle cx="56" cy="56" r="4.5" fill="#F43F5E"/>
+                    <circle cx="56" cy="56" r="2" fill="#FDE047"/>
+                  </g>
+
+                  <!-- 孩子身旁的三個探索寶物：足球、小樹苗、調色盤 -->
+                  <g transform="translate(0, 10)">
+                    <!-- 1. 活力足球 -->
+                    <g transform="translate(16, 142)">
+                      <circle cx="15" cy="15" r="13" fill="#FFFFFF" stroke="#334155" stroke-width="2"/>
+                      <!-- 足球五角形花紋 -->
+                      <polygon points="15,9 20,13 18,19 12,19 10,13" fill="#3B82F6"/>
+                      <line x1="15" y1="9" x2="15" y2="3" stroke="#334155" stroke-width="1.8"/>
+                      <line x1="20" y1="13" x2="26" y2="10" stroke="#334155" stroke-width="1.8"/>
+                      <line x1="18" y1="19" x2="23" y2="25" stroke="#334155" stroke-width="1.8"/>
+                      <line x1="12" y1="19" x2="7" y2="25" stroke="#334155" stroke-width="1.8"/>
+                      <line x1="10" y1="13" x2="4" y2="10" stroke="#334155" stroke-width="1.8"/>
+                    </g>
+
+                    <!-- 2. 小花盆與生命力小芽 -->
+                    <g transform="translate(86, 142)">
+                      <!-- 陶土花盆 -->
+                      <polygon points="8,16 20,16 18,28 10,28" fill="#EA580C"/>
+                      <rect x="6" y="13" width="16" height="4" rx="2" fill="#FB923C"/>
+                      <!-- 小樹苗莖葉 -->
+                      <path d="M 14 14 Q 14 6 14 4" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+                      <!-- 嫩芽葉子 -->
+                      <path d="M 14 6 C 8 2 8 10 14 9 Z" fill="#4ADE80"/>
+                      <path d="M 14 4 C 20 0 21 8 14 7 Z" fill="#22C55E"/>
+                    </g>
+
+                    <!-- 3. 創意調色盤與水彩筆 -->
+                    <g transform="translate(142, 142)">
+                      <!-- 木質調色盤 -->
+                      <path d="M 12 6 C 28 4 34 20 26 27 C 20 31 8 28 6 18 C 4 10 7 7 12 6 Z" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+                      <circle cx="12" cy="22" r="2.5" fill="#F8FAFC"/>
+                      <!-- 顏料點點 -->
+                      <circle cx="12" cy="11" r="2.5" fill="#EF4444"/>
+                      <circle cx="18" cy="10" r="2.5" fill="#3B82F6"/>
+                      <circle cx="24" cy="14" r="2.5" fill="#10B981"/>
+                      <circle cx="24" cy="21" r="2.5" fill="#EC4899"/>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 底部標籤：點亮靈感 -->
+              <div class="relative z-10 text-[11px] sm:text-xs text-emerald-900 font-black flex items-center justify-center gap-1 bg-white/95 px-3 py-1 rounded-full shadow-sm border border-emerald-200">
+                <span class="text-amber-500 animate-pulse">💡</span>
+                <span>點亮靈感，認識自己</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 文字引導 -->
+          <div class="flex-grow text-center sm:text-left">
+            <div class="inline-block bg-white text-emerald-800 border border-emerald-300 text-xs px-2.5 py-0.5 rounded-full font-bold mb-1">
+              單元一
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-emerald-900 mb-2">認識自己</h2>
+            <h3 class="text-lg sm:text-xl font-bold text-emerald-700 mb-2">我是獨一無二的我！</h3>
+            <p class="text-sm text-slate-700 leading-relaxed font-medium">
+              每個人都有不同的個性、興趣、感受與能力。<br class="hidden sm:inline">
+              認識自己，就是慢慢了解「我是誰」、「我喜歡什麼」，以及「什麼事情對我很重要」。
+            </p>
+          </div>
+        </div>
+
+        <!-- 右側行動引導卡 (仿圖右 小活動：我的自我介紹卡) -->
+        <div class="md:col-span-4 bg-emerald-50/50 rounded-2xl p-5 sm:p-6 border border-emerald-200 flex flex-col justify-between items-center text-center">
+          <div class="w-full">
+            <div class="flex items-center justify-center gap-1.5 mb-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="text-emerald-800 font-bold text-sm tracking-widest">小活動</span>
+            </div>
+            
+            <div class="w-20 h-24 mx-auto my-3 bg-white rounded-xl border-2 border-amber-300 shadow-sm flex flex-col items-center justify-center relative p-2 transform rotate-1">
+              <span class="text-2xl">📋</span>
+              <span class="text-xs font-bold text-amber-800 mt-1">自我探索</span>
+              <span class="absolute -bottom-1 -right-1 text-lg">✏️</span>
+            </div>
+
+            <h4 class="text-lg font-black text-emerald-950 mb-1">我的自我介紹卡</h4>
+            <p class="text-xs text-emerald-700 font-medium mb-4">認識更多不一樣的我，做自己的好朋友！</p>
+          </div>
+
+          <button onclick="goToStep('step-register')" class="w-full btn-nature-primary text-white py-3.5 px-6 rounded-2xl font-bold text-base flex items-center justify-center gap-2 group">
+            <span>開始探索</span>
+            <span class="transform transition-transform group-hover:translate-x-1 font-mono text-lg">➔</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== STEP 1: 輸入年級與暱稱、選擇造型 ==================== -->
+    <div id="step-register" class="w-full hidden">
+      <div class="nature-card rounded-3xl p-6 sm:p-8 max-w-xl mx-auto">
+        <div class="text-center mb-6">
+          <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">第一步：領取冒險者名牌</span>
+          <h2 class="text-2xl font-black text-emerald-950 mt-2">告訴大家你是幾年級的小探險家？</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">寫下名字或可愛暱稱，挑選一個最像你的活力大頭貼吧！</p>
+        </div>
+
+        <form id="profileForm" onsubmit="handleProfileSubmit(event)" class="space-y-5">
+          <!-- 暱稱輸入 -->
+          <div>
+            <label class="block text-sm font-bold text-emerald-900 mb-1.5 flex items-center gap-1">
+              <span>🏷️ 我的名字或暱稱：</span>
+              <span class="text-xs text-rose-500 font-bold">*</span>
+            </label>
+            <input type="text" id="studentName" required maxlength="12" placeholder="例如：小樂、勇敢的小明、安安..." 
+              class="w-full px-4 py-3 rounded-2xl border-2 border-emerald-200 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-100 text-base font-bold text-slate-800 transition">
+          </div>
+
+          <!-- 年級選擇 -->
+          <div>
+            <label class="block text-sm font-bold text-emerald-900 mb-1.5">
+              🎒 我現在是國小幾年級呢？
+            </label>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <button type="button" onclick="selectGrade(1)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition">一年級</button>
+              <button type="button" onclick="selectGrade(2)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition">二年級</button>
+              <button type="button" onclick="selectGrade(3)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition active-grade bg-emerald-600 text-white border-emerald-600">三年級</button>
+              <button type="button" onclick="selectGrade(4)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition">四年級</button>
+              <button type="button" onclick="selectGrade(5)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition">五年級</button>
+              <button type="button" onclick="selectGrade(6)" class="grade-btn py-2.5 rounded-xl border-2 border-emerald-200 font-bold text-sm hover:border-emerald-500 hover:bg-emerald-50 transition">六年級</button>
+            </div>
+            <input type="hidden" id="studentGrade" value="3">
+          </div>
+
+          <!-- 角色頭像選擇 -->
+          <div>
+            <label class="block text-sm font-bold text-emerald-900 mb-1.5">
+              ✨ 挑一個今天的心情化身頭像：
+            </label>
+            <div class="grid grid-cols-6 gap-2 sm:gap-3" id="avatarSelector">
+              <!-- 動態產出頭像按鈕 -->
+            </div>
+            <input type="hidden" id="selectedAvatar" value="🌱">
+          </div>
+
+          <!-- 送出按鈕 -->
+          <div class="pt-3">
+            <button type="submit" class="w-full btn-nature-primary text-white py-3.5 rounded-2xl font-black text-lg flex items-center justify-center gap-2">
+              <span>準備好了，出發探索！</span>
+              <span>🚀</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== STEP 2: 探索互動問答區 (4 大主題) ==================== -->
+    <div id="step-quiz" class="w-full hidden">
+      <div class="nature-card rounded-3xl p-5 sm:p-8 max-w-2xl mx-auto">
+        
+        <!-- 頂部進度條與類別標籤 -->
+        <div class="mb-5">
+          <div class="flex justify-between items-center text-xs font-bold text-emerald-800 mb-1.5">
+            <span id="quizCategoryBadge" class="bg-emerald-100 px-3 py-1 rounded-full text-emerald-900">
+              探索主題 1/4：我是誰（個性特質）
+            </span>
+            <span id="quizProgressNum" class="text-emerald-700">第 1 題 / 共 12 題</span>
+          </div>
+          <!-- 進度光條 -->
+          <div class="w-full h-3 bg-emerald-100 rounded-full overflow-hidden p-0.5 border border-emerald-200">
+            <div id="quizProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500 progress-shimmer" style="width: 8.33%"></div>
+          </div>
+        </div>
+
+        <!-- 題目內容 -->
+        <div class="text-center mb-6">
+          <div id="quizIcon" class="text-5xl mb-2 floating-anim inline-block">🦁</div>
+          <h3 id="quizQuestion" class="text-xl sm:text-2xl font-black text-emerald-950">
+            下課鐘聲響起時，你最常出現在哪裡呢？
+          </h3>
+          <p id="quizTip" class="text-xs sm:text-sm text-emerald-700 mt-1">選一個最符合你平時感覺的選項（沒有標準答案，做你自己最棒！）</p>
+        </div>
+
+        <!-- 4 個選項卡片 -->
+        <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          <!-- 由 JS 動態注入 -->
+        </div>
+
+        <!-- 下一題按鈕 -->
+        <div class="flex justify-between items-center pt-2">
+          <button id="prevQuestionBtn" onclick="prevQuestion()" class="text-xs sm:text-sm font-bold text-slate-500 hover:text-emerald-800 px-4 py-2 rounded-xl transition invisible">
+            ← 上一題
+          </button>
+          <button id="nextQuestionBtn" onclick="nextQuestion()" disabled class="btn-nature-primary text-white text-sm sm:text-base font-bold py-3 px-8 rounded-2xl opacity-50 cursor-not-allowed transition flex items-center gap-2">
+            <span>下一題</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== STEP 3: 自我探索卡結果產出 ==================== -->
+    <div id="step-result" class="w-full hidden">
+      <div class="max-w-xl mx-auto space-y-4">
+        
+        <!-- 成功標題提示 (非列印區) -->
+        <div class="text-center no-print">
+          <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-4 py-1.5 rounded-full font-black text-sm mb-1 shadow-sm">
+            <span>🎉 太棒了！探索任務完成！</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-emerald-950">這是屬於你的專屬自我介紹卡</h2>
+          <p class="text-xs sm:text-sm text-emerald-700">你的個性很特別，你的超能力正在發光！</p>
+        </div>
+
+        <!-- 可儲存/列印的精緻自我介紹卡實體 -->
+        <div id="printable-card" class="nature-card rounded-3xl p-5 sm:p-7 relative overflow-hidden border-4 border-emerald-300">
+          
+          <!-- 背景小裝飾圓點與藤蔓紋路 -->
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-100/60 rounded-full blur-xl pointer-events-none"></div>
+          <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-amber-100/60 rounded-full blur-xl pointer-events-none"></div>
+
+          <!-- 卡片頂部：身分標籤 -->
+          <div class="flex items-center justify-between border-b-2 border-dashed border-emerald-200 pb-3 mb-4">
+            <div class="flex items-center gap-2.5">
+              <span id="resAvatar" class="text-3xl p-1.5 bg-emerald-50 rounded-2xl border border-emerald-200 shadow-sm">🌱</span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 id="resName" class="text-xl sm:text-2xl font-black text-emerald-950">快樂小探險家</h3>
+                  <span id="resGrade" class="text-xs bg-emerald-600 text-white px-2.5 py-0.5 rounded-full font-bold">三年級</span>
+                </div>
+                <p class="text-xs text-emerald-700 font-medium">✨ 獨一無二的校園小夥伴</p>
+              </div>
+            </div>
+            <!-- 印章標記 -->
+            <div class="text-center rotate-6 border-2 border-emerald-600 text-emerald-700 rounded-xl px-2 py-0.5 text-[11px] font-black bg-emerald-50">
+              認證好朋友<br><span class="text-xs font-mono">2026/探索號</span>
+            </div>
+          </div>
+
+          <!-- 動物精神領袖與個性稱號 -->
+          <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 rounded-2xl p-4 border border-emerald-200 mb-4 flex items-center gap-4">
+            <div id="resArchetypeIcon" class="text-5xl sm:text-6xl p-2 bg-white rounded-2xl border-2 border-emerald-300 shadow-sm flex-shrink-0">
+              🦁
+            </div>
+            <div>
+              <span class="text-[11px] font-bold tracking-wider text-emerald-600 uppercase">My Personality Type</span>
+              <h4 id="resArchetypeTitle" class="text-lg sm:text-xl font-black text-emerald-900">
+                充滿活力的陽光小獅
+              </h4>
+              <p id="resArchetypeDesc" class="text-xs text-slate-600 font-medium mt-1 leading-relaxed">
+                你總是帶著滿滿的熱情與笑聲，就像溫暖的太陽一樣照亮身邊的朋友！
+              </p>
+            </div>
+          </div>
+
+          <!-- 四大探索向度總覽清單 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4 text-xs">
+            <!-- 1. 我是誰 -->
+            <div class="bg-white p-3 rounded-2xl border border-emerald-200/80 shadow-sm">
+              <span class="font-bold text-emerald-800 flex items-center gap-1">
+                <span>🌟 我是誰（性格特徵）：</span>
+              </span>
+              <p id="resWhoText" class="text-slate-700 font-medium mt-1 pl-1">熱情勇敢、喜歡帶動氣氛的小幫手</p>
+            </div>
+
+            <!-- 2. 我喜歡什麼 -->
+            <div class="bg-white p-3 rounded-2xl border border-emerald-200/80 shadow-sm">
+              <span class="font-bold text-emerald-800 flex items-center gap-1">
+                <span>🎨 我喜歡什麼（興趣方向）：</span>
+              </span>
+              <p id="resLikeText" class="text-slate-700 font-medium mt-1 pl-1">奔跑運動、團隊遊戲與挑戰新事物</p>
+            </div>
+
+            <!-- 3. 我的情緒超能力 -->
+            <div class="bg-white p-3 rounded-2xl border border-emerald-200/80 shadow-sm">
+              <span class="font-bold text-emerald-800 flex items-center gap-1">
+                <span>❤️ 我的感受超能力：</span>
+              </span>
+              <p id="resFeelText" class="text-slate-700 font-medium mt-1 pl-1">能快速轉換心情，並用笑容為人打氣</p>
+            </div>
+
+            <!-- 4. 對我很重要的事 -->
+            <div class="bg-white p-3 rounded-2xl border border-emerald-200/80 shadow-sm">
+              <span class="font-bold text-emerald-800 flex items-center gap-1">
+                <span>💎 對我很重要的事：</span>
+              </span>
+              <p id="resValueText" class="text-slate-700 font-medium mt-1 pl-1">珍貴的朋友義氣與大家一起努力的快樂</p>
+            </div>
+          </div>
+
+          <!-- 探索光譜雷達特質小條 -->
+          <div class="bg-white/80 p-3 rounded-2xl border border-emerald-200 space-y-2 mb-3">
+            <div class="text-[11px] font-bold text-emerald-900 mb-1">🌿 我的探索能量指數：</div>
+            
+            <div class="space-y-1.5 text-[11px]">
+              <div>
+                <div class="flex justify-between font-bold text-slate-700">
+                  <span>行動與活力值</span>
+                  <span id="scoreActionText">85%</span>
+                </div>
+                <div class="w-full bg-emerald-100 h-2 rounded-full overflow-hidden">
+                  <div id="barAction" class="bg-emerald-500 h-full rounded-full transition-all duration-700" style="width: 85%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between font-bold text-slate-700">
+                  <span>貼心與合作度</span>
+                  <span id="scoreCareText">90%</span>
+                </div>
+                <div class="w-full bg-teal-100 h-2 rounded-full overflow-hidden">
+                  <div id="barCare" class="bg-teal-500 h-full rounded-full transition-all duration-700" style="width: 90%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between font-bold text-slate-700">
+                  <span>想像與創意力</span>
+                  <span id="scoreCreativityText">80%</span>
+                </div>
+                <div class="w-full bg-amber-100 h-2 rounded-full overflow-hidden">
+                  <div id="barCreativity" class="bg-amber-400 h-full rounded-full transition-all duration-700" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 老師與自己的溫馨寄語 -->
+          <div class="text-center pt-2 border-t border-emerald-100">
+            <p class="text-xs font-bold text-emerald-800">
+              「記得：你不需要跟別人一模一樣，做最喜歡的自己，就是最棒的事！🌱」
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 底部互動按鈕群 (非列印區) -->
+        <div class="flex flex-wrap sm:flex-nowrap gap-3 pt-2 no-print">
+          <button onclick="printCard()" class="w-full sm:w-1/2 bg-white text-emerald-800 border-2 border-emerald-500 py-3 rounded-2xl font-bold text-sm hover:bg-emerald-50 transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>🖨️ 列印/儲存為 PDF</span>
+          </button>
+          
+          <button onclick="copyIntroductionSummary()" class="w-full sm:w-1/2 btn-nature-primary text-white py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-1.5 shadow-md">
+            <span>📋 複製自我介紹詞</span>
+          </button>
+        </div>
+
+        <div class="text-center pt-1 no-print">
+          <button onclick="restartActivity()" class="text-xs text-emerald-700 hover:text-emerald-950 font-bold underline transition">
+            🔄 重新做一次測驗或換同學玩
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div id="customModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="nature-card rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl transform scale-95 transition-transform duration-200" id="modalBox">
+      <div id="modalIcon" class="text-4xl mb-2">🎉</div>
+      <h4 id="modalTitle" class="text-lg font-black text-emerald-950 mb-1">提示訊息</h4>
+      <p id="modalMessage" class="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">這是訊息內容</p>
+      <button onclick="closeModal()" class="w-full btn-nature-primary text-white py-2.5 rounded-xl font-bold text-sm">
+        好的，知道了！
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 音效開關
+    let soundEnabled = true;
+
+    // 學生資料狀態
+    const studentProfile = {
+      name: '',
+      grade: 3,
+      avatar: '🌱',
+      answers: {} // 保存各題選擇
+    };
+
+    // 當前題目指標與當前年級題庫
+    let currentQuestionIndex = 0;
+    let activeQuestionList = [];
+
+    // 頭像候選名單
+    const avatarList = ['🌱', '👧', '👦', '🦁', '🐬', '🦄', '🦉', '🐱', '🐶', '🎨', '🚀', '⭐'];
+
+    // 分齡題庫架構：低年級(1-2)、中年級(3-4)、高年級(5-6)
+    // 每個年齡層都有 4 大主題，每個主題 3 題，共 12 題
+    const questionBankByStage = {
+      // ----------------------------------------------------
+      // 低年級（一、二年級）：語句親切簡單、強調具體生活感受
+      // ----------------------------------------------------
+      junior: [
+        // 主題一：我是誰（個性特質）3題
+        {
+          id: 'who_1',
+          categoryId: 'who',
+          category: '我是誰（個性特質）1/3',
+          icon: '🌟',
+          question: '下課鐘聲「噹噹噹」響起，你通常會第一個做什麼呢？',
+          tip: '想一想下課時，你最開心的時刻是什麼？',
+          options: [
+            { key: 'A', tag: 'leader', title: '衝出教室玩遊戲', desc: '到走廊或操場跟同學跑跑跳跳，充滿活力！', icon: '🏃' },
+            { key: 'B', tag: 'helper', title: '跟好朋友坐在一起', desc: '互相看鉛筆盒、分小點心，一起開心地說話。', icon: '👭' },
+            { key: 'C', tag: 'creator', title: '在白紙上塗鴉彩色', desc: '拿起彩色筆畫小恐龍、公主或可愛小動物。', icon: '🖍️' },
+            { key: 'D', tag: 'thinker', title: '看看圖書角的新繪本', desc: '翻翻有趣的自然繪本，或是觀察窗外的小花。', icon: '📖' }
+          ]
+        },
+        {
+          id: 'who_2',
+          categoryId: 'who',
+          category: '我是誰（個性特質）2/3',
+          icon: '🐣',
+          question: '當老師在課堂上邀請小朋友舉手發言時，你會？',
+          tip: '做最自在的自己，每一種都很棒！',
+          options: [
+            { key: 'A', tag: 'leader', title: '舉手好快好高', desc: '超想大聲把自己的答案跟全班分享！', icon: '🙋' },
+            { key: 'B', tag: 'helper', title: '幫旁邊害羞的同學加油', desc: '輕輕鼓勵他：「你剛才說的很棒，快舉手！」', icon: '🤝' },
+            { key: 'C', tag: 'creator', title: '說出特別有趣的點子', desc: '想到的答案常常逗得老師和同學笑哈哈！', icon: '✨' },
+            { key: 'D', tag: 'thinker', title: '先在心裡想好再舉手', desc: '慢慢想清楚、確定對了再跟大家分享。', icon: '🤔' }
+          ]
+        },
+        {
+          id: 'who_3',
+          categoryId: 'who',
+          category: '我是誰（個性特質）3/3',
+          icon: '🧸',
+          question: '放學回家整理書包和房間時，你的樣子比較像？',
+          tip: '在家裡最放鬆時的習慣是什麼呢？',
+          options: [
+            { key: 'A', tag: 'leader', title: '動作俐落快速搞定', desc: '想趕快去玩玩具或騎小腳踏車！', icon: '⚡' },
+            { key: 'B', tag: 'helper', title: '問爸爸媽媽需不需要幫忙', desc: '幫忙拿拖鞋、擺碗筷，當個貼心小幫手。', icon: '🥣' },
+            { key: 'C', tag: 'creator', title: '邊收邊排玩具演戲', desc: '玩具小熊和小車子可以在地毯上冒險很久！', icon: '🚗' },
+            { key: 'D', tag: 'thinker', title: '把每樣東西排得整整齊齊', desc: '鉛筆依照長短排好、書本立好，感覺好舒服。', icon: '📐' }
+          ]
+        },
+
+        // 主題二：我喜歡什麼（興趣方向）3題
+        {
+          id: 'like_1',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）1/3',
+          icon: '🎨',
+          question: '如果在學校可以挑選一個最喜歡的闖關遊戲，你想玩：',
+          tip: '選一個眼睛會發亮的小天地！',
+          options: [
+            { key: 'A', tag: 'leader', title: '丟飛盤與接力小跑酷', desc: '比比看誰能敏捷過彎，流汗真痛快！', icon: '🎯' },
+            { key: 'B', tag: 'helper', title: '合作搭大積木城堡', desc: '大家一人拿一塊，一起建一座超級城堡！', icon: '🏰' },
+            { key: 'C', tag: 'creator', title: '彩色黏土捏捏樂', desc: '把黏土混色，捏出草莓蛋糕和外星怪獸。', icon: '🧁' },
+            { key: 'D', tag: 'thinker', title: '神奇放大鏡小偵探', desc: '找樹葉上的葉脈，看看小甲蟲有幾隻腳。', icon: '🔍' }
+          ]
+        },
+        {
+          id: 'like_2',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）2/3',
+          icon: '🎈',
+          question: '如果星期六可以挑選一份特別禮物，你最想收到：',
+          tip: '想想看哪一個會讓你迫不及待打開它？',
+          options: [
+            { key: 'A', tag: 'leader', title: '一顆彈力十足的閃亮大球', desc: '可以跟朋友或家人去公園比誰踢得遠！', icon: '⚽' },
+            { key: 'B', tag: 'helper', title: '一套能跟大家分享的甜點家家酒', desc: '煮咖啡、泡茶給爸爸媽媽喝，好溫馨。', icon: '☕' },
+            { key: 'C', tag: 'creator', title: '閃亮彩色筆與大貼紙本', desc: '可以在日記本上貼得滿滿，畫滿新冒險！', icon: '📒' },
+            { key: 'D', tag: 'thinker', title: '恐龍化石模型或益智拼圖', desc: '一塊一塊拼起來，完成後超級有成就感！', icon: '🧩' }
+          ]
+        },
+        {
+          id: 'like_3',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）3/3',
+          icon: '🎪',
+          question: '音樂課或生活課上，你最喜歡的環節是：',
+          tip: '跟著感受選一個吧！',
+          options: [
+            { key: 'A', tag: 'leader', title: '拿鈴鼓大聲敲出節奏帶頭跳', desc: '踩著重重腳步帶領大家一起拍手歡呼！', icon: '🥁' },
+            { key: 'B', tag: 'helper', title: '跟好朋友手牽手圍成圓圈唱', desc: '看著大家笑咪咪，心裡覺得很甜。', icon: '🌸' },
+            { key: 'C', tag: 'creator', title: '自己改編歌詞或跳奇怪的舞', desc: '搞笑的創意動作常讓大家樂不可支！', icon: '💃' },
+            { key: 'D', tag: 'thinker', title: '仔細聽不同樂器敲出來的聲音', desc: '分辨三角鐵跟響板的聲音哪裡不一樣。', icon: '🎵' }
+          ]
+        },
+
+        // 主題三：我的感受（情緒調適）3題
+        {
+          id: 'feel_1',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）1/3',
+          icon: '❤️',
+          question: '當自己心愛的玩具或圖畫不小心被弄壞了，你第一時間會：',
+          tip: '生氣難過都是很正常的感受喔！',
+          options: [
+            { key: 'A', tag: 'leader', title: '深呼吸握拳，想辦法再做一個', desc: '「沒關係，我下次可以做得比這個更厲害！」', icon: '💪' },
+            { key: 'B', tag: 'helper', title: '抱抱家人或老師說出難過', desc: '跟信任的大人說說心事，心裡很快就不酸了。', icon: '🫂' },
+            { key: 'C', tag: 'creator', title: '把壞掉的地方變成新造型', desc: '破掉的地方剛好可以畫一顆星星遮起來！', icon: '🪄' },
+            { key: 'D', tag: 'thinker', title: '拿膠帶或膠水研究怎麼修好', desc: '安靜坐下來仔細貼，看看能不能復原。', icon: '🔧' }
+          ]
+        },
+        {
+          id: 'feel_2',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）2/3',
+          icon: '🌧️',
+          question: '下雨天不能去操場玩，只能待在教室時，你的心情通常：',
+          tip: '你是如何安頓自己的小情緒呢？',
+          options: [
+            { key: 'A', tag: 'leader', title: '發明走廊室內的小挑戰', desc: '在教室後方跟同學玩剪刀石頭布過河！', icon: '✌️' },
+            { key: 'B', tag: 'helper', title: '去找看起來無聊的同學聊天', desc: '「要不要一起玩摺紙小青蛙？」', icon: '🐸' },
+            { key: 'C', tag: 'creator', title: '看著雨滴滑下來想像在賽跑', desc: '窗戶上的小水滴好像小小探險家在溜滑梯！', icon: '💧' },
+            { key: 'D', tag: 'thinker', title: '享受安靜的聽雨時光', desc: '聽滴滴答答的雨聲，覺得特別平靜舒服。', icon: '☕' }
+          ]
+        },
+        {
+          id: 'feel_3',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）3/3',
+          icon: '🌈',
+          question: '看到同班同學因為跌倒哭了，你的直覺反應通常是：',
+          tip: '這就是你照顧別人的超能力！',
+          options: [
+            { key: 'A', tag: 'leader', title: '快步跑去找護士阿姨或老師', desc: '跑得最快去搬救兵，保護同學！', icon: '🏃‍♂️' },
+            { key: 'B', tag: 'helper', title: '蹲下來輕輕拍他：「痛痛飛走了」', desc: '給他一張面紙，牽牽他的手陪伴他。', icon: '🩹' },
+            { key: 'C', tag: 'creator', title: '做個可愛鬼臉逗他破涕為笑', desc: '扮成小猴子讓他笑出來，忘記痛痛！', icon: '🐵' },
+            { key: 'D', tag: 'thinker', title: '看看他是哪裡受傷並提醒他別抓', desc: '提醒他先把沙子拍乾淨，不要揉傷口。', icon: '🩺' }
+          ]
+        },
+
+        // 主題四：什麼事情對我很重要（價值觀）3題
+        {
+          id: 'value_1',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）1/3',
+          icon: '💎',
+          question: '老師準備頒發小貼紙時，你最希望因為哪件事被表揚？',
+          tip: '你覺得哪一種表現最像你？',
+          options: [
+            { key: 'A', tag: 'leader', title: '「勇敢挑戰王」', desc: '遇到沒學過的事也不害怕，勇敢嘗試！', icon: '🦁' },
+            { key: 'B', tag: 'helper', title: '「愛心暖暖王」', desc: '對同學很親切、很會照顧人，大家都喜歡跟你做朋友！', icon: '💖' },
+            { key: 'C', tag: 'creator', title: '「奇思妙想王」', desc: '點子總是與眾不同，做出很特別的作品！', icon: '💡' },
+            { key: 'D', tag: 'thinker', title: '「細心智慧王」', desc: '回答問題又準確又認真，觀察很仔細！', icon: '🦉' }
+          ]
+        },
+        {
+          id: 'value_2',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）2/3',
+          icon: '🌱',
+          question: '在學校裡，你覺得怎樣才算是「真正的好朋友」？',
+          tip: '友情裡什麼最可貴？',
+          options: [
+            { key: 'A', tag: 'leader', title: '一起玩刺激遊戲、互相挺到底', desc: '遇到好玩的遊戲一起衝，輸了也一起笑！', icon: '🤝' },
+            { key: 'B', tag: 'helper', title: '心裡難過時會互相安慰擁抱', desc: '不管開心或哭泣，他都願意坐在我身邊。', icon: '🧸' },
+            { key: 'C', tag: 'creator', title: '能聽懂我天馬行空的小秘密', desc: '一起編只屬於我們兩個的冒險故事與秘密暗號！', icon: '🗝️' },
+            { key: 'D', tag: 'thinker', title: '說話誠實、遵守約定不說謊', desc: '說好借書就準時還，說好的約定不會忘記。', icon: '📜' }
+          ]
+        },
+        {
+          id: 'value_3',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）3/3',
+          icon: '🎁',
+          question: '如果有一個魔法瓶能裝下一樣你的寶物，你最想裝入：',
+          tip: '哪一樣對你最珍貴？',
+          options: [
+            { key: 'A', tag: 'leader', title: '滿滿的冒險勇氣', desc: '不管遇到多大的風浪，都不怕摔倒的勇氣！', icon: '🔥' },
+            { key: 'B', tag: 'helper', title: '身邊每個人的溫暖笑容', desc: '讓家人跟同學每天都笑咪咪、沒有人哭泣。', icon: '😊' },
+            { key: 'C', tag: 'creator', title: '一輩子用不完的好奇想像力', desc: '能看見彩虹背後的城堡，創造超酷的事物！', icon: '🌈' },
+            { key: 'D', tag: 'thinker', title: '看懂世界上所有奧秘的放大鏡', desc: '明白大自然的道理，做一個懂事有智慧的人！', icon: '🌟' }
+          ]
+        }
+      ],
+
+      // ----------------------------------------------------
+      // 中年級（三、四年級）：小組分工、興趣展現、團隊合作
+      // ----------------------------------------------------
+      middle: [
+        // 主題一：我是誰（個性特質）3題
+        {
+          id: 'who_1',
+          categoryId: 'who',
+          category: '我是誰（個性特質）1/3',
+          icon: '🌟',
+          question: '班級進行小組專案活動時，你最常主動扮演哪種角色？',
+          tip: '在小隊裡，你通常發揮什麼作用？',
+          options: [
+            { key: 'A', tag: 'leader', title: '召集大家分配任務的隊長', desc: '統籌時間進度，鼓勵大家一起動起來！', icon: '🚩' },
+            { key: 'B', tag: 'helper', title: '居中協調與關心大家的暖暖包', desc: '確保每個人都有發表意見，照顧大家感受。', icon: '🤝' },
+            { key: 'C', tag: 'creator', title: '負責美編與創意提案的點子王', desc: '設計吸睛封面、想出最驚豔的展示點子！', icon: '🎨' },
+            { key: 'D', tag: 'thinker', title: '專注找資料與檢查錯誤的分析官', desc: '確認事實正確、內容有條有理不漏掉。', icon: '🔍' }
+          ]
+        },
+        {
+          id: 'who_2',
+          categoryId: 'who',
+          category: '我是誰（個性特質）2/3',
+          icon: '⛺',
+          question: '如果學校舉辦戶外探索營，走進陌生森林步道時，你通常：',
+          tip: '面對未知環境，你的本能是什麼？',
+          options: [
+            { key: 'A', tag: 'leader', title: '走在隊伍前頭探路', desc: '充滿精神喊口號，想要帶大家找到終點！', icon: '🥾' },
+            { key: 'B', tag: 'helper', title: '注意走在後面的同學有沒有跟上', desc: '陪走得慢的朋友一起走，遞水給他喝。', icon: '🎒' },
+            { key: 'C', tag: 'creator', title: '找奇形怪狀的落葉做自然拼貼', desc: '發現樹幹上的苔蘚圖案好像外星精靈！', icon: '🍂' },
+            { key: 'D', tag: 'thinker', title: '對照解說牌研究植物特徵', desc: '辨認蕨類跟一般草本植物到底哪裡不同。', icon: '🌿' }
+          ]
+        },
+        {
+          id: 'who_3',
+          categoryId: 'who',
+          category: '我是誰（個性特質）3/3',
+          icon: '🎯',
+          question: '當老師宣布要選出新的班級幹部或代表時，你的心聲更接近：',
+          tip: '傾聽你內在的自我期待～',
+          options: [
+            { key: 'A', tag: 'leader', title: '「我願意出來服務，帶領全班爭取榮譽！」', desc: '想要挑戰自己的領導力與號召力。', icon: '🏆' },
+            { key: 'B', tag: 'helper', title: '「我願意當風紀或衛生幹部的小幫手」', desc: '默默把每項瑣事做好，讓班上維持整潔融洽。', icon: '🧹' },
+            { key: 'C', tag: 'creator', title: '「我想當學藝或壁報股長！」', desc: '設計黑板報與教室佈置，讓教室超有美感！', icon: '🖍️' },
+            { key: 'D', tag: 'thinker', title: '「我想當圖書股長或資訊小幫手」', desc: '管理書籍借閱、協助電腦設備，精確不出錯。', icon: '💻' }
+          ]
+        },
+
+        // 主題二：我喜歡什麼（興趣方向）3題
+        {
+          id: 'like_1',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）1/3',
+          icon: '🎨',
+          question: '週末有連續兩小時完全自由的時間，你最想投入做什麼？',
+          tip: '做什麼事情會讓你忘記時間？',
+          options: [
+            { key: 'A', tag: 'leader', title: '球類對決或戶外騎車奔馳', desc: '在球場上來場熱血的籃球或躲避球對決！', icon: '🏀' },
+            { key: 'B', tag: 'helper', title: '跟家人一起烘焙或照顧寵物花草', desc: '幫狗狗梳毛、烤小鬆餅，享受溫馨氛圍。', icon: '🐶' },
+            { key: 'C', tag: 'creator', title: '拼樂高、剪紙手作或寫奇幻小說', desc: '用積木搭出秘密太空基地，編織長篇大冒險。', icon: '🛸' },
+            { key: 'D', tag: 'thinker', title: '解數獨、玩策略桌遊或閱讀百科', desc: '沉迷於三國志故事、宇宙黑洞或棋藝對局。', icon: '♟️' }
+          ]
+        },
+        {
+          id: 'like_2',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）2/3',
+          icon: '🔭',
+          question: '如果能自己策劃一個學校園遊會攤位，你最想開：',
+          tip: '發揮你的特長與熱情！',
+          options: [
+            { key: 'A', tag: 'leader', title: '體能障礙計時挑戰賽攤位', desc: '拿著麥克風主持，吸引全校同學來挑戰破紀錄！', icon: '📢' },
+            { key: 'B', tag: 'helper', title: '幸福解憂茶飲與祈福手環攤', desc: '為排隊的人送上溫暖微笑，親手編織祝福。', icon: '📿' },
+            { key: 'C', tag: 'creator', title: '現場似顏繪與創意手繪胸章', desc: '幫每位同學畫下專屬的趣味卡通Ｑ版肖像！', icon: '🖌️' },
+            { key: 'D', tag: 'thinker', title: '密室逃脫與機關解謎闖關', desc: '設計精密的摩斯密碼與鎖頭，考驗大家腦力！', icon: '🔐' }
+          ]
+        },
+        {
+          id: 'like_3',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）3/3',
+          icon: '📱',
+          question: '如果看 YouTube 或借閱書籍，你最容易被哪類主題吸引？',
+          tip: '你眼中的酷世界是什麼？',
+          options: [
+            { key: 'A', tag: 'leader', title: '極限運動錦標賽或冒險生存日記', desc: '看登山家登頂、野外求生的勇敢紀錄片。', icon: '🧗' },
+            { key: 'B', tag: 'helper', title: '動物救援故事與溫馨友情短劇', desc: '拯救受傷流浪狗、朋友間感動人心的真實故事。', icon: '🐾' },
+            { key: 'C', tag: 'creator', title: '定格動畫製作、手工改造或插畫縮時', desc: '看平凡材料如何變身為令人驚嘆的藝術品！', icon: '🎬' },
+            { key: 'D', tag: 'thinker', title: '科普冷知識解說或科技大拆解', desc: '「如果月球消失會怎樣？」或是飛機引擎原理。', icon: '🚀' }
+          ]
+        },
+
+        // 主題三：我的感受（情緒調適）3題
+        {
+          id: 'feel_1',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）1/3',
+          icon: '❤️',
+          question: '期中考或比賽成績不如自己的預期，你通常會怎麼調節心情？',
+          tip: '面對失落，你如何找回力量？',
+          options: [
+            { key: 'A', tag: 'leader', title: '去操場狂跑兩圈，把不甘心化為動力', desc: '「下次我一定要加倍努力把分數贏回來！」', icon: '🏃' },
+            { key: 'B', tag: 'helper', title: '找好朋友或家人談談自己的失落', desc: '得到理解與抱抱之後，心裡沉重的石頭就放下了。', icon: '🍵' },
+            { key: 'C', tag: 'creator', title: '聽音樂、戴耳機畫畫把情緒塗上顏色', desc: '把沮喪畫在畫紙上，沉浸在創作的安靜時光。', icon: '🎧' },
+            { key: 'D', tag: 'thinker', title: '拿出考卷把錯題一題題訂正搞懂原因', desc: '分析到底是粗心還是概念不懂，用邏輯說服自己。', icon: '📝' }
+          ]
+        },
+        {
+          id: 'feel_2',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）2/3',
+          icon: '⚡',
+          question: '當小組討論大家意見吵得面紅耳赤時，你的反應通常是：',
+          tip: '在火藥味中，你的特長是什麼？',
+          options: [
+            { key: 'A', tag: 'leader', title: '站出來拍手：「好，我們表決二選一！」', desc: '快速終止僵局，讓事情能順利推進。', icon: '⚖️' },
+            { key: 'B', tag: 'helper', title: '安撫雙方情緒：「大家都是為了小組好嘛」', desc: '傾聽兩邊的想法，找出能顧及彼此感受的折衷點。', icon: '🕊️' },
+            { key: 'C', tag: 'creator', title: '跳出框框提出第三種令人驚喜的第三方案', desc: '把兩邊的優點合併成一個超酷的新想法！', icon: '💡' },
+            { key: 'D', tag: 'thinker', title: '在紙上條列兩方優缺點讓數據說話', desc: '客觀理性分析哪種方案更省時且可行。', icon: '📊' }
+          ]
+        },
+        {
+          id: 'feel_3',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）3/3',
+          icon: '🛋️',
+          question: '經過了一整天緊湊疲憊的學校生活，哪種方式最能幫你「回血」？',
+          tip: '你的個人能量補充站是什麼？',
+          options: [
+            { key: 'A', tag: 'leader', title: '去球場流一場大汗或跟朋友痛快打場遊戲', desc: '身體動一動、笑聲喊出來，疲勞瞬間一掃而空！', icon: '⚡' },
+            { key: 'B', tag: 'helper', title: '跟家人吃晚餐、聊聊今天班上發生的好笑八卦', desc: '感受到被愛與陪伴，心情立刻變得暖洋洋。', icon: '🍲' },
+            { key: 'C', tag: 'creator', title: '窩在自己房間角落做手作或拼裝玩具', desc: '在完全屬於自己的幻想空間裡盡情放鬆。', icon: '🏰' },
+            { key: 'D', tag: 'thinker', title: '一個人在書桌前安靜閱讀或看喜歡的紀錄片', desc: '不受任何人打擾，享受獨處思考的平靜時光。', icon: '📚' }
+          ]
+        },
+
+        // 主題四：什麼事情對我很重要（價值信念）3題
+        {
+          id: 'value_1',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）1/3',
+          icon: '💎',
+          question: '如果在校園被選為模範生推薦人選，你最看重的是自己的哪項特質？',
+          tip: '你最引以為傲的內在優勢：',
+          options: [
+            { key: 'A', tag: 'leader', title: '帶動全班向心力與克服困難的魄力', desc: '大家遇到難題時，我敢於站出來承擔責任！', icon: '🌟' },
+            { key: 'B', tag: 'helper', title: '待人溫柔體貼、絕不排擠任何同學', desc: '讓每個人在班上都有歸屬感與安全感。', icon: '💖' },
+            { key: 'C', tag: 'creator', title: '跳脫傳統思維、總能創造驚喜的創意', desc: '不盲目跟隨別人，展現最真實特別的自己！', icon: '🎨' },
+            { key: 'D', tag: 'thinker', title: '求知求真的學習熱情與誠實守信的態度', desc: '對知識認真探究，做一個令人信賴的人。', icon: '🦉' }
+          ]
+        },
+        {
+          id: 'value_2',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）2/3',
+          icon: '🤝',
+          question: '如果必須在一組價值中做選擇，你認為哪樣對童年成長最不可或缺？',
+          tip: '跟隨內心真正的指引：',
+          options: [
+            { key: 'A', tag: 'leader', title: '敢於冒險、永不服輸的「勇氣」', desc: '就算跌倒一百次，只要爬起來一百零一次就是英雄！', icon: '🔥' },
+            { key: 'B', tag: 'helper', title: '互相關懷、同甘共苦的「真摯友情」', desc: '有人懂你、有人陪你走過每一步路最幸福。', icon: '🫂' },
+            { key: 'C', tag: 'creator', title: '自由自在發揮創意的「想像力」', desc: '有了想像力，就算只是一張廢紙也能變成太空船！', icon: '✨' },
+            { key: 'D', tag: 'thinker', title: '獨立思考、明辨是非的「理性智慧」', desc: '不隨波逐流，知道什麼是對的、什麼是真理。', icon: '⚖️' }
+          ]
+        },
+        {
+          id: 'value_3',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）3/3',
+          icon: '🌠',
+          question: '想像十年後的自己，你最期待別人怎麼形容長大後的你？',
+          tip: '你心中的理想自我輪廓：',
+          options: [
+            { key: 'A', tag: 'leader', title: '「他是一個充滿熱血、能影響世界的領導者！」', desc: '帶領團隊實現偉大目標，讓事情變得更好！', icon: '👑' },
+            { key: 'B', tag: 'helper', title: '「他是一個溫暖善良、幫助過很多人的溫柔支柱」', desc: '默默為社會角落點燈，讓人感到世界很美好。', icon: '🕯️' },
+            { key: 'C', tag: 'creator', title: '「他是一個點子用不完、風格獨特的造夢藝術家！」', desc: '創作出震撼人心、令人驚奇的作品或故事。', icon: '🌈' },
+            { key: 'D', tag: 'thinker', title: '「他是一個學識淵博、能解決複雜難題的科學家！」', desc: '探索世界的底層奧秘，為人類解開未知。', icon: '🚀' }
+          ]
+        }
+      ],
+
+      // ----------------------------------------------------
+      // 高年級（五、六年級）：自我探索、價值反思、深層人際
+      // ----------------------------------------------------
+      senior: [
+        // 主題一：我是誰（個性特質）3題
+        {
+          id: 'who_1',
+          categoryId: 'who',
+          category: '我是誰（個性特質）1/3',
+          icon: '🌟',
+          question: '在畢業班或高年級社團裡，哪種敘述最貼切你平時的狀態？',
+          tip: '省思你與周遭人群互動的模式：',
+          options: [
+            { key: 'A', tag: 'leader', title: '目標導向，願意主動扛起責任發起行動', desc: '善於激勵團隊，渴望帶著大家一起達成最好的目標！', icon: '🚩' },
+            { key: 'B', tag: 'helper', title: '細膩敏感，是身邊好友的專屬心理避風港', desc: '善於察言觀色，能及時察覺並安撫身邊朋友的低落。', icon: '🕊️' },
+            { key: 'C', tag: 'creator', title: '思維跳躍，總有與眾不同的個人品味與見解', desc: '不喜歡千篇一律，總想加入自己的風格與創意。', icon: '✨' },
+            { key: 'D', tag: 'thinker', title: '冷靜客觀，習慣退一步看全局再採取行動', desc: '做事講求邏輯與條理，不輕易被衝動情緒牽著走。', icon: '🧭' }
+          ]
+        },
+        {
+          id: 'who_2',
+          categoryId: 'who',
+          category: '我是誰（個性特質）2/3',
+          icon: '🏆',
+          question: '面對一項從沒學過的高難度校園任務（如大隊接力、畢業晚會表演），你的心態：',
+          tip: '面對高難度挑戰時的本能：',
+          options: [
+            { key: 'A', tag: 'leader', title: '激起強烈勝負欲，主動練習並號召大家衝刺', desc: '「越難越要試！只要有決心，我們一定做得到！」', icon: '🔥' },
+            { key: 'B', tag: 'helper', title: '關注每個成員的心理壓力，鼓勵大家享受過程', desc: '「名次其次，最重要的是大家一起努力的美好回憶！」', icon: '🤝' },
+            { key: 'C', tag: 'creator', title: '想編排一齣前所未見的驚喜亮點驚艷全場', desc: '加入意想不到的橋段或特效，讓表演脫穎而出！', icon: '🎭' },
+            { key: 'D', tag: 'thinker', title: '研究對手弱點與自身優勢，制定最佳排棒戰術', desc: '精密計算秒數與體能分配，用科學方法提升勝率。', icon: '📐' }
+          ]
+        },
+        {
+          id: 'who_3',
+          categoryId: 'who',
+          category: '我是誰（個性特質）3/3',
+          icon: '🪞',
+          question: '如果用一個詞來定義現在的自己，你覺得哪一個最能代表你的本質？',
+          tip: '探索你靈魂深處的聲音：',
+          options: [
+            { key: 'A', tag: 'leader', title: '「開拓者」', desc: '熱愛挑戰、敢作敢當，不畏懼做第一個吃螃蟹的人。', icon: '⛵' },
+            { key: 'B', tag: 'helper', title: '「守護者」', desc: '真誠善良、充滿共情，用溫柔守護珍貴的人際關係。', icon: '🛡️' },
+            { key: 'C', tag: 'creator', title: '「夢想家」', desc: '靈感豐沛、獨樹一幟，在精神世界裡擁有無限宇宙。', icon: '🌌' },
+            { key: 'D', tag: 'thinker', title: '「求道者」', desc: '追求真理、深度思辨，想要看透事物背後的本質真相。', icon: '🦉' }
+          ]
+        },
+
+        // 主題二：我喜歡什麼（興趣方向）3題
+        {
+          id: 'like_1',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）1/3',
+          icon: '🎨',
+          question: '如果能由你獨立策劃畢業旅行的一整個下午行程，你會安排：',
+          tip: '你最心儀的體驗型態：',
+          options: [
+            { key: 'A', tag: 'leader', title: '漆彈生存對決或高空滑索等極限體能探索', desc: '全班分組對抗，體驗腎上腺素飆升的冒險刺激！', icon: '🎯' },
+            { key: 'B', tag: 'helper', title: '海邊露天營火晚會，圍坐彈吉他烤棉花糖真心話', desc: '大家敞開心扉回顧六年點滴，氣氛溫馨難忘。', icon: '🔥' },
+            { key: 'C', tag: 'creator', title: '漫步文創藝術特區或手作工坊自製畢業紀念品', desc: '親手雕刻皮革、做藍染，把回憶化作藝術創作。', icon: '🏺' },
+            { key: 'D', tag: 'thinker', title: '參觀尖端科技太空館或自然科學歷史博物館', desc: '沉浸在沉浸式天文館，探索恐龍演化與量子力學。', icon: '🪐' }
+          ]
+        },
+        {
+          id: 'like_2',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）2/3',
+          icon: '🚀',
+          question: '如果國中生涯可以加入一個深度培力社團，你最想加入哪一個？',
+          tip: '哪種專業技能最讓你心動？',
+          options: [
+            { key: 'A', tag: 'leader', title: '模擬聯合國或辯論社、學生自治會', desc: '鍛鍊公共演說、邏輯論辯與大型活動主持能力！', icon: '🎙️' },
+            { key: 'B', tag: 'helper', title: '春暉志工社或跨世代伴讀愛心服務隊', desc: '走入社區陪伴長者或偏鄉小朋友，傳遞實質溫暖。', icon: '🌱' },
+            { key: 'C', tag: 'creator', title: '數位多媒體微電影創作社或流行音樂創作社', desc: '學習分鏡攝影、配樂混音，發布自己原創的短片！', icon: '🎬' },
+            { key: 'D', tag: 'thinker', title: 'AI 程式設計與機器人創客研發社', desc: '動手寫 Python 程式碼、組裝感測器解決生活難題。', icon: '🤖' }
+          ]
+        },
+        {
+          id: 'like_3',
+          categoryId: 'like',
+          category: '我喜歡什麼（興趣方向）3/3',
+          icon: '📚',
+          question: '在網路自學或閱讀時，哪種領域的內容最容易引發你深度鑽研？',
+          tip: '你的個人知識好奇心聚焦點：',
+          options: [
+            { key: 'A', tag: 'leader', title: '商業奇才傳記、世界名將戰術或成功領導學', desc: '看偉大人物如何逆境翻盤、打造令人驚豔的企業。', icon: '📈' },
+            { key: 'B', tag: 'helper', title: '人際溝通心理學、動物保育或社會人文關懷', desc: '了解人類行為背後的情感動機，關心弱勢群體。', icon: '🫂' },
+            { key: 'C', tag: 'creator', title: '世界神話傳說、當代視覺藝術或科幻世界觀建構', desc: '研究《魔戒》或漫威宇宙的設定細節，繪製概念圖。', icon: '🎨' },
+            { key: 'D', tag: 'thinker', title: '宇宙天文、密碼學、心理悖論或未解之謎', desc: '深入研究相對論、薛丁格的貓等引人深思的科學悖論。', icon: '🔭' }
+          ]
+        },
+
+        // 主題三：我的感受（情緒調適）3題
+        {
+          id: 'feel_1',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）1/3',
+          icon: '❤️',
+          question: '即將面臨畢業升學的未知與同儕分開的焦慮時，你通常如何調適？',
+          tip: '面對大環境變遷，你的情緒防禦機制：',
+          options: [
+            { key: 'A', tag: 'leader', title: '把目光聚焦在國中的新目標與挑戰上', desc: '「未來有更多更廣闊的舞台等著我，勇敢往前看！」', icon: '🏹' },
+            { key: 'B', tag: 'helper', title: '珍惜最後時光，寫卡片給每個重要好友與師長', desc: '把感恩與愛說出來，相信真正的友誼能超越距離。', icon: '💌' },
+            { key: 'C', tag: 'creator', title: '將回憶剪輯成一部紀念影片或創作一首班歌', desc: '透過藝術定格時光，讓感傷昇華成永恆的美好。', icon: '🎞️' },
+            { key: 'D', tag: 'thinker', title: '提前研究國中課業與環境，做好心理與生活規劃', desc: '用周全的準備消除對未知的不確定感與焦慮。', icon: '📅' }
+          ]
+        },
+        {
+          id: 'feel_2',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）2/3',
+          icon: '⚖️',
+          question: '當自己辛苦完成的成果被誤會或被忽視時，你心裡的對話通常是：',
+          tip: '面對委屈時，你如何維持內在韌性？',
+          options: [
+            { key: 'A', tag: 'leader', title: '主動找老師或相關同學當面把事情講清楚', desc: '不卑不亢捍衛自己的努力，用行動證明自己的實力！', icon: '🗣️' },
+            { key: 'B', tag: 'helper', title: '先讓彼此冷靜，嘗試理解對方是否也有難處', desc: '避免言語衝突，相信只要以真誠相待，時間會證明一切。', icon: '🕊️' },
+            { key: 'C', tag: 'creator', title: '轉念一笑：「懂我的人自然懂，繼續專注自我創作」', desc: '把委屈化作靈感，寫進作品或畫進畫作裡。', icon: '🎨' },
+            { key: 'D', tag: 'thinker', title: '自我複盤整個過程，保留紀錄與事實依據', desc: '客觀檢視自己的步驟是否有疏漏，用事實說話。', icon: '🔍' }
+          ]
+        },
+        {
+          id: 'feel_3',
+          categoryId: 'feel',
+          category: '我的感受（情緒超能力）3/3',
+          icon: '🌙',
+          question: '當內心感到巨大的孤獨或迷惘時，最能帶給你寧靜力量的是：',
+          tip: '你內心深處的自我療癒之泉：',
+          options: [
+            { key: 'A', tag: 'leader', title: '穿上跑鞋跑步、打球，在大汗淋漓中找回掌控感', desc: '體能的極限釋放能讓意志力重新燃燒！', icon: '⚡' },
+            { key: 'B', tag: 'helper', title: '跟最懂自己的知心摯友促膝長談到深夜', desc: '在被完全接納的眼神中，找回被愛的溫暖。', icon: '☕' },
+            { key: 'C', tag: 'creator', title: '沉浸在音樂世界，隨筆寫下詩句或畫下黑白素描', desc: '創作是靈魂的避難所，在藝術中與最真實的自己對話。', icon: '✍️' },
+            { key: 'D', tag: 'thinker', title: '仰望星空或在大自然中漫步，感受宇宙的宏大', desc: '在深邃的時間與空間前，個人的煩惱變得微不足道。', icon: '🌌' }
+          ]
+        },
+
+        // 主題四：什麼事情對我很重要（價值信念）3題
+        {
+          id: 'value_1',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）1/3',
+          icon: '💎',
+          question: '在人生價值觀天秤上，你認為哪一項是你絕不能妥協的底線？',
+          tip: '你的個人核心誠信原則：',
+          options: [
+            { key: 'A', tag: 'leader', title: '「骨氣與擔當」：說到做到，敢於承擔責任', desc: '不推卸責任、不當懦夫，活出頂天立地的尊嚴。', icon: '🛡️' },
+            { key: 'B', tag: 'helper', title: '「同理與慈悲」：絕不傷害弱小、懂得替人著想', desc: '不論何時，善良都比聰明更加重要。', icon: '💖' },
+            { key: 'C', tag: 'creator', title: '「真實與原創」：不做複製品，堅持原創靈魂', desc: '寧可成為有瑕疵的自己，也不做完美的贗品。', icon: '🦄' },
+            { key: 'D', tag: 'thinker', title: '「真理與誠信」：尊重事實，不人云亦云盲從', desc: '獨立思考是人類最珍貴的火花，絕不被謊言左右。', icon: '⚖️' }
+          ]
+        },
+        {
+          id: 'value_2',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）2/3',
+          icon: '🌱',
+          question: '如果畢業紀念冊上要留下人生第一句座右銘，你會選：',
+          tip: '引領你未來幾年的精神燈塔：',
+          options: [
+            { key: 'A', tag: 'leader', title: '「風浪越大，魚越貴！勇敢揚帆出海冒險！」', desc: '擁抱未知挑戰，成為自己命運的船長。', icon: '⛵' },
+            { key: 'B', tag: 'helper', title: '「贈人玫瑰，手有餘香；溫柔是世界上最強的力量」', desc: '用善意溫暖他人，生命也會回饋你滿滿陽光。', icon: '🌹' },
+            { key: 'C', tag: 'creator', title: '「每個人都是天才，只要你走在自己獨特的軌道上」', desc: '不拿別人的尺丈量自己，活出萬芒燦爛的獨特性。', icon: '🎨' },
+            { key: 'D', tag: 'thinker', title: '「知識就是力量，保持好奇，世界永遠值得探索」', desc: '終身學習、洞察事理，讓智慧引領前行之路。', icon: '🦉' }
+          ]
+        },
+        {
+          id: 'value_3',
+          categoryId: 'value',
+          category: '對我很重要的事（價值信念）3/3',
+          icon: '🌍',
+          question: '當你想像自己對這個世界有貢獻時，你最希望用什麼方式？',
+          tip: '你心中的宏大志願與願景：',
+          options: [
+            { key: 'A', tag: 'leader', title: '建立團隊或企業，創造就業並推動社會改革進步', desc: '發揮號召力，匯聚人才解決重大的社會挑戰。', icon: '🏙️' },
+            { key: 'B', tag: 'helper', title: '投身教育、醫療或人道救助，點亮需要幫助的生命', desc: '直接給予關懷，讓世界上受苦的心靈得到撫慰。', icon: '🕊️' },
+            { key: 'C', tag: 'creator', title: '創作流傳後世的文藝作品或建築，撫慰人類心靈', desc: '用小說、電影、音樂或繪畫給予時代共鳴與希望。', icon: '🎻' },
+            { key: 'D', tag: 'thinker', title: '發明革命性科技或發表科學定理，推進人類文明', desc: '攻克醫學難題、開發清潔能源，突破認知極限。', icon: '💡' }
+          ]
+        }
+      ]
+    };
+
+    // 四種動物性格原型結論分析
+    const archetypes = {
+      leader: {
+        title: '充滿活力的陽光小獅 🦁',
+        icon: '🦁',
+        desc: '你就像燦爛的小太陽，充滿勇氣與行動力！遇到挑戰時願意勇敢踏出第一步，大家和你在一起都會充滿力量！',
+        who: '勇敢開朗、喜歡挑戰與帶動大家的冒險家',
+        like: '體能競賽、戶外探險與極具號召力的新鮮挑戰',
+        feel: '遇到挫折很快站起來，把逆境化為奮鬥的柴火',
+        val: '勇敢、責任心與大家齊心協力的榮譽感',
+        stats: { action: 96, care: 82, creativity: 84 }
+      },
+      helper: {
+        title: '溫暖貼心的守護小鹿 🦌',
+        icon: '🦌',
+        desc: '你擁有一顆超級善良溫柔的心，很擅長感受身邊同學的需要。你是班上最溫暖的守護天使，有你當朋友超幸福！',
+        who: '細膩體貼、懂得傾聽與關心人的暖心夥伴',
+        like: '和朋友分享快樂、陪伴身邊人與團隊合作',
+        feel: '重視真誠感受，善於陪伴與用同理心化解爭吵',
+        val: '友情、陪伴、善良與互相信任的美好情誼',
+        stats: { action: 78, care: 98, creativity: 85 }
+      },
+      creator: {
+        title: '靈感無限的彩虹飛鳥 🦜',
+        icon: '🦜',
+        desc: '你的腦袋是個驚奇點子庫！總是能看見事情不同的美，喜歡動手創作、繪畫或想像，讓世界變得多彩多姿！',
+        who: '天馬行空、富有想像力與獨特風格的小藝術家',
+        like: '繪畫手作、音樂戲劇、寫作與發明新事物',
+        feel: '透過創作表達心中的酸甜苦辣，情感豐富敏銳',
+        val: '自由表達、獨特創意與發現世界的美好',
+        stats: { action: 82, care: 86, creativity: 98 }
+      },
+      thinker: {
+        title: '聰穎冷靜的智慧貓頭鷹 🦉',
+        icon: '🦉',
+        desc: '你具備超敏銳的觀察力！喜歡探究原因、沉著思考，面對事情不慌張，是身邊大家最信賴的智多星！',
+        who: '冷靜理性、喜歡觀察與探討知識的小博士',
+        like: '科學實驗、解謎益智、觀察自然與大宇宙奧秘',
+        feel: '擅長先理清思路，用冷靜客觀的心態分析問題',
+        val: '真理、知識、誠信與不斷追求新發現',
+        stats: { action: 76, care: 84, creativity: 92 }
+      }
+    };
+
+    function playBeep(type = 'click') {
+      if (!soundEnabled) return;
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(780, now + 0.08);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'select') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(660, now + 0.06);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'success') {
+          // 勝利小琶音
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.type = 'triangle';
+            o.frequency.value = freq;
+            g.gain.setValueAtTime(0.12, now + idx * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.2);
+            o.start(now + idx * 0.08);
+            o.stop(now + idx * 0.08 + 0.2);
+          });
+        }
+      } catch (e) {
+        // 音效靜音容錯
+      }
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('soundToggleBtn');
+      btn.textContent = soundEnabled ? '🔊' : '🔇';
+      showMessage('音效設定', soundEnabled ? '音效已開啟囉！🎵' : '已切換為靜音模式 🤫');
+    }
+
+    function goToStep(stepId) {
+      playBeep('click');
+      const steps = ['step-intro', 'step-register', 'step-quiz', 'step-result'];
+      steps.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(stepId);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // 初始化頭像選單
+    function initAvatarSelector() {
+      const container = document.getElementById('avatarSelector');
+      container.innerHTML = '';
+      avatarList.forEach((emoji, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `w-12 h-12 rounded-2xl text-2xl border-2 flex items-center justify-center transition ${index === 0 ? 'border-emerald-600 bg-emerald-100 ring-2 ring-emerald-300' : 'border-emerald-200 bg-white hover:bg-emerald-50'}`;
+        btn.textContent = emoji;
+        btn.onclick = () => {
+          playBeep('select');
+          document.querySelectorAll('#avatarSelector button').forEach(b => {
+            b.classList.remove('border-emerald-600', 'bg-emerald-100', 'ring-2', 'ring-emerald-300');
+            b.classList.add('border-emerald-200', 'bg-white');
+          });
+          btn.classList.add('border-emerald-600', 'bg-emerald-100', 'ring-2', 'ring-emerald-300');
+          btn.classList.remove('border-emerald-200', 'bg-white');
+          document.getElementById('selectedAvatar').value = emoji;
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // 年級切換
+    function selectGrade(gradeNum) {
+      playBeep('select');
+      document.getElementById('studentGrade').value = gradeNum;
+      document.querySelectorAll('.grade-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600', 'active-grade');
+        btn.classList.add('border-emerald-200');
+      });
+      const selectedBtn = event.currentTarget;
+      selectedBtn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600', 'active-grade');
+      selectedBtn.classList.remove('border-emerald-200');
+    }
+
+    // 處理基本資料送出並載入對應年級的 12 題題庫
+    function handleProfileSubmit(e) {
+      e.preventDefault();
+      playBeep('click');
+      const nameInput = document.getElementById('studentName').value.trim();
+      if (!nameInput) {
+        showMessage('提示', '請輸入你的名字或暱稱喔！🌿');
+        return;
+      }
+      studentProfile.name = nameInput;
+      studentProfile.grade = parseInt(document.getElementById('studentGrade').value);
+      studentProfile.avatar = document.getElementById('selectedAvatar').value;
+
+      // 依年級設定專屬 12 題題庫
+      if (studentProfile.grade <= 2) {
+        activeQuestionList = questionBankByStage.junior;
+      } else if (studentProfile.grade <= 4) {
+        activeQuestionList = questionBankByStage.middle;
+      } else {
+        activeQuestionList = questionBankByStage.senior;
+      }
+
+      currentQuestionIndex = 0;
+      studentProfile.answers = {};
+      loadQuestion(0);
+      goToStep('step-quiz');
+    }
+
+    function loadQuestion(index) {
+      const q = activeQuestionList[index];
+      if (!q) return;
+
+      const totalQuestions = activeQuestionList.length; // 12
+
+      // 更新進度與標題
+      document.getElementById('quizCategoryBadge').textContent = `探索主題：${q.category}`;
+      document.getElementById('quizProgressNum').textContent = `第 ${index + 1} 題 / 共 ${totalQuestions} 題`;
+      const progressPercent = ((index + 1) / totalQuestions) * 100;
+      document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+      document.getElementById('quizIcon').textContent = q.icon;
+      document.getElementById('quizQuestion').textContent = q.question;
+      document.getElementById('quizTip').textContent = q.tip;
+
+      // 上一題按鈕顯示狀態
+      const prevBtn = document.getElementById('prevQuestionBtn');
+      if (index === 0) {
+        prevBtn.classList.add('invisible');
+      } else {
+        prevBtn.classList.remove('invisible');
+      }
+
+      // 下一題按鈕控制
+      const nextBtn = document.getElementById('nextQuestionBtn');
+      nextBtn.disabled = !studentProfile.answers[q.id];
+      if (studentProfile.answers[q.id]) {
+        nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      } else {
+        nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+
+      if (index === totalQuestions - 1) {
+        nextBtn.innerHTML = `<span>生成專屬介紹卡！</span><span>✨</span>`;
+      } else {
+        nextBtn.innerHTML = `<span>下一題</span><span>➔</span>`;
+      }
+
+      // 渲染選項卡片
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const isSelected = studentProfile.answers[q.id] && studentProfile.answers[q.id].key === opt.key;
+        const card = document.createElement('div');
+        card.className = `option-card p-4 rounded-2xl flex items-start gap-3 bg-white shadow-sm ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => selectOption(q.id, opt);
+
+        card.innerHTML = `
+          <div class="text-3xl p-2 bg-emerald-50 rounded-xl border border-emerald-100 flex-shrink-0">
+            ${opt.icon}
+          </div>
+          <div class="flex-grow">
+            <div class="flex items-center justify-between">
+              <h4 class="font-black text-slate-800 text-sm sm:text-base">${opt.title}</h4>
+              <span class="w-5 h-5 rounded-full border-2 ${isSelected ? 'border-emerald-600 bg-emerald-600' : 'border-slate-300'} flex items-center justify-center text-white text-xs">
+                ${isSelected ? '✓' : ''}
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">${opt.desc}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectOption(questionId, optionObj) {
+      playBeep('select');
+      studentProfile.answers[questionId] = optionObj;
+
+      // 重新標示被選中卡片
+      loadQuestion(currentQuestionIndex);
+    }
+
+    function nextQuestion() {
+      playBeep('click');
+      if (currentQuestionIndex < activeQuestionList.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+      } else {
+        generateCardResult();
+      }
+    }
+
+    function prevQuestion() {
+      playBeep('click');
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion(currentQuestionIndex);
+      }
+    }
+
+    function generateCardResult() {
+      playBeep('success');
+
+      // 統計 12 題選答傾向
+      const counts = { leader: 0, helper: 0, creator: 0, thinker: 0 };
+      const categoryAnswers = { who: [], like: [], feel: [], value: [] };
+
+      activeQuestionList.forEach(q => {
+        const ans = studentProfile.answers[q.id];
+        if (ans) {
+          if (ans.tag && counts[ans.tag] !== undefined) {
+            counts[ans.tag]++;
+          }
+          if (q.categoryId && categoryAnswers[q.categoryId]) {
+            categoryAnswers[q.categoryId].push(ans.title);
+          }
+        }
+      });
+
+      // 找出得票最高的主要動物原型
+      let dominantTag = 'leader';
+      let maxCount = -1;
+      ['leader', 'helper', 'creator', 'thinker'].forEach(tag => {
+        if (counts[tag] > maxCount) {
+          maxCount = counts[tag];
+          dominantTag = tag;
+        }
+      });
+
+      const profileArch = archetypes[dominantTag];
+
+      // 填入卡片基本身分
+      document.getElementById('resAvatar').textContent = studentProfile.avatar;
+      document.getElementById('resName').textContent = studentProfile.name;
+      
+      const gradeTextMap = { 1: '一年級', 2: '二年級', 3: '三年級', 4: '四年級', 5: '五年級', 6: '六年級' };
+      document.getElementById('resGrade').textContent = gradeTextMap[studentProfile.grade] || '國小探險家';
+
+      // 填入個性稱號與總結
+      document.getElementById('resArchetypeIcon').textContent = profileArch.icon;
+      document.getElementById('resArchetypeTitle').textContent = profileArch.title;
+      document.getElementById('resArchetypeDesc').textContent = profileArch.desc;
+
+      // 整合 12 題中四大主題的個人答案亮點
+      document.getElementById('resWhoText').textContent = categoryAnswers.who.length > 0 
+        ? `${categoryAnswers.who.slice(0, 2).join('、')}（${profileArch.who}）`
+        : profileArch.who;
+
+      document.getElementById('resLikeText').textContent = categoryAnswers.like.length > 0
+        ? `${categoryAnswers.like.join('、')}`
+        : profileArch.like;
+
+      document.getElementById('resFeelText').textContent = categoryAnswers.feel.length > 0
+        ? `${categoryAnswers.feel.slice(0, 2).join('、')}（${profileArch.feel}）`
+        : profileArch.feel;
+
+      document.getElementById('resValueText').textContent = categoryAnswers.value.length > 0
+        ? `${categoryAnswers.value.slice(0, 2).join('、')}（${profileArch.val}）`
+        : profileArch.val;
+
+      // 依據 12 題總計數精確計算能量指數 (最低 70%，最高 99%)
+      const actionScore = Math.min(99, Math.max(70, Math.round(72 + (counts.leader / 12) * 27)));
+      const careScore = Math.min(99, Math.max(70, Math.round(72 + (counts.helper / 12) * 27)));
+      const creatScore = Math.min(99, Math.max(70, Math.round(72 + (counts.creator / 12) * 27)));
+
+      document.getElementById('scoreActionText').textContent = `${actionScore}%`;
+      document.getElementById('barAction').style.width = `${actionScore}%`;
+
+      document.getElementById('scoreCareText').textContent = `${careScore}%`;
+      document.getElementById('barCare').style.width = `${careScore}%`;
+
+      document.getElementById('scoreCreativityText').textContent = `${creatScore}%`;
+      document.getElementById('barCreativity').style.width = `${creatScore}%`;
+
+      goToStep('step-result');
+
+      // 施放慶祝紙花
+      try {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch(e) {}
+    }
+
+    function printCard() {
+      playBeep('click');
+      window.print();
+    }
+
+    function copyIntroductionSummary() {
+      playBeep('click');
+      const gradeTextMap = { 1: '一年級', 2: '二年級', 3: '三年級', 4: '四年級', 5: '五年級', 6: '六年級' };
+      const gradeStr = gradeTextMap[studentProfile.grade] || '';
+      
+      const textToCopy = `【我的自我介紹卡】\n` +
+        `大家好！我是 ${gradeStr} 的 ${studentProfile.name} ${studentProfile.avatar}。\n` +
+        `我的個性特質就像「${document.getElementById('resArchetypeTitle').textContent.trim()}」！\n` +
+        `🌟 我是誰：${document.getElementById('resWhoText').textContent}\n` +
+        `🎨 我喜歡：${document.getElementById('resLikeText').textContent}\n` +
+        `❤️ 我的感受小超能力：${document.getElementById('resFeelText').textContent}\n` +
+        `💎 對我很重要的事情是：${document.getElementById('resValueText').textContent}\n` +
+        `很高興認識大家，希望能和大家成為最好的朋友！🌿`;
+
+      // 複製到剪貼簿 (遵循 iFrame 兼容性標準)
+      const tempTextarea = document.createElement('textarea');
+      tempTextarea.value = textToCopy;
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showMessage('複製成功！📋', '自我介紹講稿已經複製到剪貼簿囉！可以在課堂上朗讀或貼給老師看！');
+        } else {
+          showMessage('複製提醒', '請直接長按選取卡片內容進行複製喔！');
+        }
+      } catch (err) {
+        showMessage('複製提醒', '請手動選取文字進行複製喔！');
+      }
+      document.body.removeChild(tempTextarea);
+    }
+
+    function restartActivity() {
+      playBeep('click');
+      studentProfile.name = '';
+      studentProfile.answers = {};
+      document.getElementById('studentName').value = '';
+      goToStep('step-intro');
+    }
+
+    function showMessage(title, message) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = message;
+      const modal = document.getElementById('customModal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      playBeep('click');
+      document.getElementById('customModal').classList.add('hidden');
+    }
+
+    // 視窗加載後啟動
+    window.onload = function() {
+      initAvatarSelector();
+    };
+  </script>
+</body>
+</html>
